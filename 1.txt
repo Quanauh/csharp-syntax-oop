@@ -1,0 +1,7 @@
+Khi nao 1 mang co the null
+muon consolo.line ko dung ! dung cach nao
+nhieu file C# trong 1 project muon chay thi the nao 
+bai toan giao2mang lam gon hon
+bai mangdoixung
+cac modifile khac ngoai private va public
+Tim hieu ve dictionary

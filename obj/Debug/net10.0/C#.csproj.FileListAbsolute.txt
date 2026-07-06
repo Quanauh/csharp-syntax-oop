@@ -1,0 +1,14 @@
+C:\Users\Admin\OneDrive\Documents\C#\bin\Debug\net10.0\C#.exe
+C:\Users\Admin\OneDrive\Documents\C#\bin\Debug\net10.0\C#.deps.json
+C:\Users\Admin\OneDrive\Documents\C#\bin\Debug\net10.0\C#.runtimeconfig.json
+C:\Users\Admin\OneDrive\Documents\C#\bin\Debug\net10.0\C#.dll
+C:\Users\Admin\OneDrive\Documents\C#\bin\Debug\net10.0\C#.pdb
+C:\Users\Admin\OneDrive\Documents\C#\obj\Debug\net10.0\C#.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Admin\OneDrive\Documents\C#\obj\Debug\net10.0\C#.AssemblyInfoInputs.cache
+C:\Users\Admin\OneDrive\Documents\C#\obj\Debug\net10.0\C#.AssemblyInfo.cs
+C:\Users\Admin\OneDrive\Documents\C#\obj\Debug\net10.0\C#.csproj.CoreCompileInputs.cache
+C:\Users\Admin\OneDrive\Documents\C#\obj\Debug\net10.0\C#.dll
+C:\Users\Admin\OneDrive\Documents\C#\obj\Debug\net10.0\refint\C#.dll
+C:\Users\Admin\OneDrive\Documents\C#\obj\Debug\net10.0\C#.pdb
+C:\Users\Admin\OneDrive\Documents\C#\obj\Debug\net10.0\C#.genruntimeconfig.cache
+C:\Users\Admin\OneDrive\Documents\C#\obj\Debug\net10.0\ref\C#.dll
