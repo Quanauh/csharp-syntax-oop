@@ -305,7 +305,7 @@ Console.WriteLine(diem["An"]);
 ### Tính chất của Dictionary
 
 - Lưu dữ liệu theo cặp `key-value`
-- Key không được trùng nhau
+- Key không được trùng nhau, nếu key trùng, value trước sẽ bị value sau ghi đè
 - Tìm kiếm dữ liệu nhanh
 - Không lưu theo thứ tự index như mảng
 
@@ -746,3 +746,29 @@ Khi hết vòng lặp kiểm tra biến check
 ## 11.6. Tìm hiểu về dictionary
 
 [5.4 Dictionary](#54-dictionary)
+
+## 11.7. Các cách để hàm nhập vào Console.Readline()! không cần dấu ! mà không bị warning
+
+Cách 1: Dùng ?? để gán giá trị mặc định khi null
+
+```csharp
+string s = Console.ReadLine() ?? "";
+```
+
+Với cách này, giá trị của string s sẽ được gán giá trị mặc định là null nếu không nhập vào.
+
+Cách 2: Tắt cảnh báo nullable cho toàn bộ project 
+
+Trong file ```.csproj```, xóa dòng 
+
+```xml
+<Nullable>enable</Nullable>
+```
+
+Cách 3: Tắt cảnh báo null cho 1 file đang cần thực hiện
+
+Ở đầu file .cs, thêm dòng 
+
+```csharp
+#nullable disable
+```
