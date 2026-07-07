@@ -447,7 +447,11 @@ Ví dụ:
 ```csharp
 SinhVien sv = new SinhVien();
 ```
+Trong đó: 
 
+`SinhVien` là class
+
+`sv` là Object
 ---
 ## 6.3 Acces Modifiers
 Access Modifier là các từ khóa dùng để quy định phạm vi truy cập của:
