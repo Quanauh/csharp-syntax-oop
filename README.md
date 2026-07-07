@@ -327,6 +327,87 @@ foreach(var item in diem)
     Console.WriteLine(item.Key + " " + item.Value);
 }
 ```
+
+## 5.5 HashSet
+
+`HashSet` là cấu trúc dữ liệu dùng để lưu các phần tử không trùng lặp.
+
+HashSet sử dụng cơ chế hashing nên:
+- thêm phần tử nhanh
+- tìm kiếm nhanh
+- xóa nhanh
+
+### Ví dụ:
+
+```csharp
+using System.Collections.Generic;
+
+HashSet<int> set = new HashSet<int>();
+
+set.Add(1);
+set.Add(2);
+set.Add(2);
+set.Add(3);
+
+foreach(int x in set)
+{
+    Console.WriteLine(x);
+}
+```
+
+Kết quả:
+
+```text
+1
+2
+3
+```
+
+Phần tử `2` chỉ xuất hiện một lần vì HashSet không cho phép dữ liệu trùng nhau.
+
+## Tính chất của HashSet
+
+- Không cho phép phần tử trùng
+- Không có index như mảng hoặc List
+- Tìm kiếm nhanh với độ phức tạp trung bình O(1)
+- Không đảm bảo thứ tự phần tử
+
+## Một số hàm phổ biến
+
+```csharp
+set.Add(5);          // thêm phần tử
+
+set.Remove(2);       // xóa phần tử
+
+set.Contains(3);     // kiểm tra tồn tại
+
+set.Count;           // số lượng phần tử
+
+set.Clear();         // xóa toàn bộ
+```
+
+## So sánh HashSet và List
+
+| HashSet | List |
+|---|---|
+| Không cho phép trùng | Cho phép trùng |
+| Tìm kiếm nhanh hơn | Tìm kiếm chậm hơn |
+| Không có index | Có index |
+
+## Ví dụ ứng dụng
+
+Loại bỏ phần tử trùng trong mảng:
+
+```csharp
+int[] a = {1,2,2,3,4,4,5};
+
+HashSet<int> set = new HashSet<int>(a);
+
+foreach(int x in set)
+{
+    Console.WriteLine(x);
+}
+```
 ---
 
 # 6. Lập trình hướng đối tượng (OOP)
@@ -640,14 +721,28 @@ a[1] = 5;
 ```
 ## 11.3.Tối ưu bài toán giao2mang
 [toiuugiao2mang](Array/toiuugiao2mang.cs)
+
+Ở cách làm cũ, bài toán giao 2 mảng được thực hiện với độ phức tạp là O(n+m+1001)
+
+Sau khi tối ưu bằng cách sử dụng Hashset, độ phức tạp rút gọn còn O(n+m)
 ## 11.4. Bài toàn mangdoixung không muốn có hàm check riêng
+
 Có 2 hướng giải quyết:
+
 C1: Chuyển hàm check vào trong Main()
+
 [code đã sửa](Array/mangdoixung.cs)
+
 C2: Thêm biến check đặt giá trị bằng 1 nếu mảng ko thỏa mãn gán biến bằng 0
+
 Khi hết vòng lặp kiểm tra biến check
-[Ví dụ](Array/mangdoixung2.cs)
+
+[cách 2](Array/mangdoixung2.cs)
+
 ## 11.5. Các modifier khác ngoài private và public
+
 [6.3 Access Modifiers](#63-acces-modifiers)
+
 ## 11.6. Tìm hiểu về dictionary
+
 [5.4 Dictionary](#54-dictionary)
