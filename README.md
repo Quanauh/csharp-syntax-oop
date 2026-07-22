@@ -21,6 +21,7 @@
 
 [11. Trả lời các câu hỏi hướng dẫn](#11-trả-lời-các-câu-hỏi-hướng-dẫn)
 
+[12. Oracle database trong C#](#12-oracle-database-trong-c)
 # BÁO CÁO  
 # TÌM HIỂU VỀ SYNTAX C# VÀ LẬP TRÌNH HƯỚNG ĐỐI TƯỢNG (OOP)
 ## 1. Giới thiệu
