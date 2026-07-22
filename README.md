@@ -762,3 +762,455 @@ string s = Console.ReadLine() ?? "";
 Với cách này, giá trị của string s sẽ được gán giá trị mặc định là null nếu không nhập vào.
 
 
+# Oracle trong C# (Oracle.ManagedDataAccess)
+
+## 12. Oracle Database trong C#
+
+Tổng hợp các lớp và phương thức thường dùng khi làm việc với Oracle Database trong C#.
+
+---
+
+## 12.1. OracleConnection
+
+Dùng để kết nối với Oracle Database.
+
+### Các phương thức thường dùng
+
+| Phương thức | Chức năng |
+|-------------|-----------|
+| `Open()` | Mở kết nối đến Oracle Database |
+| `Close()` | Đóng kết nối |
+| `BeginTransaction()` | Bắt đầu một Transaction |
+| `CreateCommand()` | Tạo một `OracleCommand` gắn với Connection |
+| `Dispose()` | Giải phóng tài nguyên |
+
+### Các thuộc tính thường dùng
+
+| Thuộc tính | Chức năng |
+|------------|-----------|
+| `State` | Trạng thái kết nối (`Open`, `Closed`) |
+| `ConnectionString` | Chuỗi kết nối tới Oracle |
+
+---
+
+## 12.2. OracleCommand
+
+Dùng để thực thi câu lệnh SQL hoặc PL/SQL.
+
+### Các phương thức thường dùng
+
+| Phương thức | Chức năng |
+|-------------|-----------|
+| `ExecuteNonQuery()` | Thực hiện INSERT, UPDATE, DELETE, CREATE, DROP,... |
+| `ExecuteReader()` | Thực hiện SELECT và trả về nhiều dòng dữ liệu |
+| `ExecuteScalar()` | Thực hiện SELECT và trả về một giá trị duy nhất |
+| `Dispose()` | Giải phóng tài nguyên |
+
+### Các thuộc tính thường dùng
+
+| Thuộc tính | Chức năng |
+|------------|-----------|
+| `CommandText` | Nội dung câu lệnh SQL |
+| `Connection` | Connection đang sử dụng |
+| `Transaction` | Transaction đang sử dụng |
+| `Parameters` | Danh sách tham số truyền vào SQL |
+| `CommandType` | Kiểu câu lệnh (`Text`, `StoredProcedure`) |
+| `BindByName` | Ghép tham số theo tên thay vì theo vị trí |
+
+---
+
+## 12.3. OracleParameter
+
+Dùng để truyền tham số vào câu lệnh SQL nhằm tránh SQL Injection.
+
+### Các phương thức thường dùng
+
+| Phương thức | Chức năng |
+|-------------|-----------|
+| `Parameters.Add()` | Thêm tham số |
+| `Parameters.Clear()` | Xóa toàn bộ tham số |
+
+### Lưu ý
+
+- Trong câu lệnh SQL:
+
+```sql
+WHERE SoTK = :stk
+```
+
+- Khi thêm tham số:
+
+```csharp
+cmd.Parameters.Add("stk", value);
+```
+
+**Không thêm dấu `:` khi gọi `Add()`.**
+
+---
+
+## 12.4. OracleDataReader
+
+Dùng để đọc dữ liệu trả về từ câu lệnh `SELECT`.
+
+### Các phương thức thường dùng
+
+| Phương thức | Chức năng |
+|-------------|-----------|
+| `Read()` | Đọc sang dòng tiếp theo |
+| `GetString()` | Lấy dữ liệu kiểu `string` |
+| `GetInt32()` | Lấy dữ liệu kiểu `int` |
+| `GetDecimal()` | Lấy dữ liệu kiểu `decimal` |
+| `GetDateTime()` | Lấy dữ liệu kiểu `DateTime` |
+| `IsDBNull()` | Kiểm tra giá trị NULL |
+| `Close()` | Đóng DataReader |
+
+---
+
+## 12.5. OracleTransaction
+
+Dùng để quản lý Transaction trong Oracle.
+
+### Các phương thức thường dùng
+
+| Phương thức | Chức năng |
+|-------------|-----------|
+| `Commit()` | Lưu toàn bộ thay đổi |
+| `Rollback()` | Hủy toàn bộ thay đổi |
+| `Dispose()` | Giải phóng Transaction |
+
+### Các thuộc tính thường dùng
+
+| Thuộc tính | Chức năng |
+|------------|-----------|
+| `Connection` | Connection đang sử dụng |
+| `IsolationLevel` | Mức cô lập của Transaction |
+
+---
+
+## 12.6. using
+
+Nên sử dụng `using` khi làm việc với Oracle.
+
+Ví dụ:
+
+- `OracleConnection`
+- `OracleCommand`
+- `OracleDataReader`
+- `OracleTransaction`
+
+`using` sẽ tự động gọi `Dispose()` khi đối tượng ra khỏi phạm vi sử dụng.
+
+---
+
+## 12.7. Thứ tự làm việc với Oracle
+
+```text
+OracleConnection
+      │
+      ▼
+Open()
+      │
+      ▼
+OracleCommand
+      │
+      ▼
+Parameters.Add()
+      │
+      ▼
+Execute...
+      │
+      ▼
+OracleDataReader (nếu SELECT)
+      │
+      ▼
+Commit()/Rollback() (nếu dùng Transaction)
+      │
+      ▼
+Close()/Dispose()
+```
+
+---
+
+## 12.8. Khi nào dùng từng phương thức?
+
+| Phương thức | Khi sử dụng |
+|-------------|-------------|
+| `Open()` | Mở kết nối Database |
+| `Close()` | Đóng kết nối |
+| `ExecuteNonQuery()` | INSERT, UPDATE, DELETE |
+| `ExecuteReader()` | SELECT nhiều dòng |
+| `ExecuteScalar()` | SELECT một giá trị |
+| `Commit()` | Lưu Transaction |
+| `Rollback()` | Hủy Transaction |
+| `Read()` | Đọc từng dòng dữ liệu |
+| `Parameters.Add()` | Truyền tham số |
+
+---
+
+## 12.9. Những lưu ý quan trọng
+
+- Luôn sử dụng `Parameters.Add()` thay vì nối chuỗi SQL.
+- Không thêm dấu `:` khi gọi `Parameters.Add()`.
+- Luôn dùng `using` để tự động giải phóng tài nguyên.
+- Chỉ mở kết nối khi cần và đóng ngay sau khi sử dụng.
+- Khi dùng Transaction, nhớ gán:
+
+```csharp
+cmd.Transaction = tran;
+```
+
+trước khi thực thi câu lệnh.
+
+- Nếu đọc dữ liệu bằng `OracleDataReader`, nên đóng Reader sau khi sử dụng.
+- Kiểm tra số dòng bị ảnh hưởng sau `ExecuteNonQuery()` nếu cần xác nhận thao tác thành công.
+- Với các thao tác liên quan nhiều câu lệnh (ví dụ chuyển tiền), luôn sử dụng `OracleTransaction`.
+
+---
+
+## 12.10. Tóm tắt các lớp quan trọng
+
+| Lớp | Mục đích |
+|------|----------|
+| `OracleConnection` | Kết nối Oracle Database |
+| `OracleCommand` | Thực thi câu lệnh SQL |
+| `OracleParameter` | Truyền tham số cho SQL |
+| `OracleDataReader` | Đọc dữ liệu từ SELECT |
+| `OracleTransaction` | Quản lý Transaction |
+---
+
+## 12.11. OracleDbType
+
+`OracleDbType` dùng để chỉ định kiểu dữ liệu của tham số khi truyền vào SQL hoặc Stored Procedure.
+
+### Một số kiểu dữ liệu thường dùng
+
+| OracleDbType | Kiểu dữ liệu C# | Oracle |
+|--------------|-----------------|---------|
+| `Varchar2` | `string` | VARCHAR2 |
+| `Char` | `string` | CHAR |
+| `Int32` | `int` | NUMBER |
+| `Decimal` | `decimal` | NUMBER |
+| `Double` | `double` | BINARY_DOUBLE |
+| `Date` | `DateTime` | DATE |
+| `TimeStamp` | `DateTime` | TIMESTAMP |
+| `Blob` | `byte[]` | BLOB |
+| `Clob` | `string` | CLOB |
+
+### Khi nào cần dùng?
+
+Thông thường:
+
+```csharp
+cmd.Parameters.Add("stk", "123456");
+```
+
+là đủ.
+
+Nếu muốn chỉ rõ kiểu dữ liệu:
+
+```csharp
+cmd.Parameters.Add("stk", OracleDbType.Varchar2).Value = "123456";
+```
+
+---
+
+## 12.12. Stored Procedure
+
+Stored Procedure là tập hợp các câu lệnh SQL được lưu trực tiếp trong Oracle Database.
+
+### Thực thi Stored Procedure
+
+```csharp
+OracleCommand cmd = new OracleCommand("TenProcedure", conn);
+
+cmd.CommandType = CommandType.StoredProcedure;
+```
+
+Sau đó thêm các Parameters rồi gọi:
+
+```csharp
+cmd.ExecuteNonQuery();
+```
+
+---
+
+## 12.13. Sequence
+
+Sequence dùng để sinh số tự động.
+
+Ví dụ
+
+```sql
+CREATE SEQUENCE seq_khach_hang
+START WITH 1
+INCREMENT BY 1;
+```
+
+Lấy giá trị tiếp theo
+
+```sql
+seq_khach_hang.NEXTVAL
+```
+
+Lấy giá trị hiện tại
+
+```sql
+seq_khach_hang.CURRVAL
+```
+
+Thường dùng để sinh khóa chính.
+
+---
+
+## 12.14. Trigger
+
+Trigger là đoạn PL/SQL tự động chạy khi có:
+
+- INSERT
+- UPDATE
+- DELETE
+
+Ví dụ
+
+```sql
+CREATE OR REPLACE TRIGGER trg_khach_hang
+BEFORE INSERT ON KHACH_HANG
+FOR EACH ROW
+BEGIN
+    :NEW.MaKH := seq_khach_hang.NEXTVAL;
+END;
+```
+
+Nhờ Trigger, C# không cần truyền `MaKH`.
+
+---
+
+## 12.15. Transaction
+
+Transaction giúp đảm bảo nhiều thao tác được thực hiện như một giao dịch.
+
+### Các phương thức
+
+| Hàm | Chức năng |
+|------|-----------|
+| `BeginTransaction()` | Bắt đầu Transaction |
+| `Commit()` | Lưu thay đổi |
+| `Rollback()` | Hủy thay đổi |
+
+Ví dụ sử dụng
+
+```
+Bắt đầu Transaction
+        │
+        ▼
+SQL 1
+        │
+        ▼
+SQL 2
+        │
+        ▼
+Commit()
+```
+
+Nếu có lỗi
+
+```
+Bắt đầu Transaction
+        │
+        ▼
+SQL 1
+        │
+        ▼
+SQL 2 (Lỗi)
+        │
+        ▼
+Rollback()
+```
+
+---
+
+## 12.16. SQL Injection
+
+Không nên
+
+```csharp
+string sql =
+"SELECT * FROM KHACH_HANG WHERE SoTK='" + stk + "'";
+```
+
+Nên
+
+```csharp
+string sql =
+"SELECT * FROM KHACH_HANG WHERE SoTK=:stk";
+
+cmd.Parameters.Add("stk", stk);
+```
+
+Luôn sử dụng `Parameters.Add()` để tránh SQL Injection.
+
+---
+
+## 12.17. using
+
+Các đối tượng nên đặt trong `using`
+
+- OracleConnection
+- OracleCommand
+- OracleDataReader
+- OracleTransaction
+
+Lợi ích
+
+- Tự động gọi `Dispose()`
+- Không rò rỉ tài nguyên
+- Đóng Connection đúng lúc
+
+---
+
+## 12.18. Thứ tự làm việc chuẩn
+
+```
+OracleConnection
+        │
+        ▼
+Open()
+        │
+        ▼
+OracleCommand
+        │
+        ▼
+Parameters.Add()
+        │
+        ▼
+Execute...
+        │
+        ▼
+OracleDataReader
+        │
+        ▼
+Commit()/Rollback()
+        │
+        ▼
+Dispose()
+```
+
+---
+
+## 12.19. Cheat Sheet
+
+| Muốn làm gì? | Hàm |
+|--------------|-----|
+| Mở kết nối | `Open()` |
+| Đóng kết nối | `Close()` |
+| INSERT | `ExecuteNonQuery()` |
+| UPDATE | `ExecuteNonQuery()` |
+| DELETE | `ExecuteNonQuery()` |
+| SELECT nhiều dòng | `ExecuteReader()` |
+| SELECT 1 giá trị | `ExecuteScalar()` |
+| Thêm Parameter | `Parameters.Add()` |
+| Đọc dữ liệu | `Read()` |
+| Kiểm tra NULL | `IsDBNull()` |
+| Transaction | `BeginTransaction()` |
+| Lưu Transaction | `Commit()` |
+| Hủy Transaction | `Rollback()` |
